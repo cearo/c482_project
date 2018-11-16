@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AddPartMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="543.0" style="-fx-background-color: #c0c0c0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorysystem.View.AddPartController">
+   <children>
+      <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="92.0" text="Add Part" textFill="#1c12e4">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="inHouseOption" layoutX="195.0" layoutY="27.0" mnemonicParsing="false" onAction="#inHouseOptionListener" prefHeight="17.0" prefWidth="92.0" text="In-House">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <toggleGroup>
+            <ToggleGroup fx:id="partSource" />
+         </toggleGroup>
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="outsourcedOption" layoutX="355.0" layoutY="27.0" mnemonicParsing="false" onAction="#outsourcedOptionListener" text="Outsourced" toggleGroup="$partSource">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="59.0" layoutY="97.0" prefHeight="21.0" prefWidth="66.0" text="ID">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="altFieldLabel" layoutX="59.0" layoutY="371.0" prefHeight="21.0" prefWidth="106.0" text="Company Name">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="59.0" layoutY="259.0" prefHeight="27.0" prefWidth="92.0" text="Price/Cost">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="316.0" layoutY="313.0" prefHeight="21.0" prefWidth="66.0" text="Min">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="59.0" layoutY="205.0" prefHeight="21.0" prefWidth="66.0" text="Inv">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="59.0" layoutY="313.0" prefHeight="21.0" prefWidth="66.0" text="Max">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="59.0" layoutY="151.0" prefHeight="21.0" prefWidth="66.0" text="Name">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="name" layoutX="170.0" layoutY="144.0" prefHeight="42.0" prefWidth="195.0" promptText="Part Name">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="inventory" layoutX="170.0" layoutY="198.0" prefHeight="42.0" prefWidth="195.0" promptText="Inventory">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="price" layoutX="170.0" layoutY="252.0" prefHeight="42.0" prefWidth="195.0" promptText="Price/Cost">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="id" disable="true" editable="false" layoutX="170.0" layoutY="90.0" prefHeight="42.0" prefWidth="195.0" text="Auto Gen - Disabled">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="altField" layoutX="170.0" layoutY="360.0" prefHeight="42.0" prefWidth="195.0" promptText="Company Name">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="max" layoutX="170.0" layoutY="304.0" prefHeight="42.0" prefWidth="128.0" promptText="Maximum">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="min" layoutX="357.0" layoutY="306.0" prefHeight="42.0" prefWidth="128.0" promptText="Minimum">
+         <font>
+            <Font name="Arial Italic" size="14.0" />
+         </font>
+      </TextField>
+      <Button fx:id="saveButton" layoutX="298.0" layoutY="422.0" mnemonicParsing="false" onAction="#saveButtonListener" prefHeight="42.0" prefWidth="83.0" text="Save" />
+      <Button fx:id="cancelButton" layoutX="407.0" layoutY="422.0" mnemonicParsing="false" onAction="#cancelButtonListener" prefHeight="42.0" prefWidth="83.0" text="Cancel" />
+   </children>
+</AnchorPane>

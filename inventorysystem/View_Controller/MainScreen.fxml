@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="1086.0" style="-fx-background-color: #c0c0c0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorysystem.View.MainScreenController">
+   <children>
+      <Text fill="#140b94" layoutX="22.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Inventory Management System" wrappingWidth="342.98828125">
+         <font>
+            <Font name="Arial" size="22.0" />
+         </font>
+      </Text>
+      <Pane layoutX="14.0" layoutY="87.0" prefHeight="306.0" prefWidth="511.0" style="-fx-border-color: #999999; -fx-border-radius: 5px;">
+         <children>
+            <TableView fx:id="partsTable" layoutX="15.0" layoutY="53.0" prefHeight="200.0" prefWidth="482.0">
+              <columns>
+                <TableColumn fx:id="partID" prefWidth="120.0" text="Part ID" />
+                <TableColumn fx:id="partName" prefWidth="120.0" text="Part Name" />
+                  <TableColumn fx:id="partInventory" prefWidth="120.0" text="Inventory Level" />
+                  <TableColumn fx:id="partCost" prefWidth="120.0" text="Price/Cost per Unit" />
+              </columns>
+            </TableView>
+            <Label layoutX="21.0" layoutY="21.0" prefHeight="17.0" prefWidth="63.0" text="Parts">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="partAddButton" alignment="CENTER" contentDisplay="CENTER" layoutX="168.0" layoutY="256.0" mnemonicParsing="false" onAction="#addButtonHandler" prefHeight="36.0" prefWidth="100.0" text="Add">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="partModifyButton" alignment="CENTER" contentDisplay="CENTER" layoutX="274.0" layoutY="256.0" mnemonicParsing="false" onAction="#modifyButtonHandler" prefHeight="36.0" prefWidth="100.0" text="Modify">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="partDeleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" layoutY="256.0" mnemonicParsing="false" onAction="#deleteButtonHandler" prefHeight="36.0" prefWidth="100.0" text="Delete">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="partSearchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="8.0" mnemonicParsing="false" onAction="#partSearchButtonHandler" prefHeight="36.0" prefWidth="100.0" text="Search">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <TextField fx:id="partSearchField" layoutX="336.0" layoutY="13.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="561.0" layoutY="87.0" prefHeight="306.0" prefWidth="511.0" style="-fx-border-color: #999999; -fx-border-radius: 5px;">
+         <children>
+            <TableView fx:id="productsTable" layoutX="15.0" layoutY="53.0" prefHeight="200.0" prefWidth="482.0">
+               <columns>
+                  <TableColumn fx:id="productID" prefWidth="120.0" text="Product ID" />
+                  <TableColumn fx:id="productName" prefWidth="120.0" text="Product Name" />
+                  <TableColumn fx:id="productInventory" prefWidth="120.0" text="Inventory Level" />
+                  <TableColumn fx:id="productPrice" prefWidth="120.0" text="Price per Unit" />
+               </columns>
+            </TableView>
+            <Label layoutX="25.0" layoutY="21.0" prefHeight="17.0" prefWidth="79.0" text="Products">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="productAddButton" alignment="CENTER" contentDisplay="CENTER" layoutX="168.0" layoutY="256.0" mnemonicParsing="false" onAction="#productAddButtonListener" prefHeight="36.0" prefWidth="100.0" text="Add">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="productDeleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="380.0" layoutY="256.0" mnemonicParsing="false" onAction="#productDeleteButtonListener" prefHeight="36.0" prefWidth="100.0" text="Delete">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="productModifyButton" alignment="CENTER" contentDisplay="CENTER" layoutX="274.0" layoutY="256.0" mnemonicParsing="false" onAction="#productModifyButtonListener" prefHeight="36.0" prefWidth="100.0" text="Modify">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="productSearchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="8.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="100.0" text="Search">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <TextField fx:id="productSearchField" layoutX="336.0" layoutY="13.0" />
+         </children>
+      </Pane>
+      <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" layoutX="949.0" layoutY="413.0" mnemonicParsing="false" onAction="#exitButtonListener" prefHeight="36.0" prefWidth="100.0" text="Exit">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+   </children>
+</AnchorPane>
