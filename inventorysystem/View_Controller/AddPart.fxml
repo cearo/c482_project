@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AddPartMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="543.0" style="-fx-background-color: #c0c0c0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorysystem.View.AddPartController">
+<AnchorPane id="AddPartMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="543.0" style="-fx-background-color: #c0c0c0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorysystem.View_Controller.AddPartController">
    <children>
       <Label layoutX="31.0" layoutY="25.0" prefHeight="17.0" prefWidth="92.0" text="Add Part" textFill="#1c12e4">
          <font>
@@ -42,7 +42,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="altFieldLabel" layoutX="59.0" layoutY="371.0" prefHeight="21.0" prefWidth="106.0" text="Company Name">
+      <Label fx:id="altFieldLabel" layoutX="59.0" layoutY="371.0" prefHeight="21.0" prefWidth="106.0" text="Machine ID">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -92,7 +92,7 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="altField" layoutX="170.0" layoutY="360.0" prefHeight="42.0" prefWidth="195.0" promptText="Company Name">
+      <TextField fx:id="altField" layoutX="170.0" layoutY="360.0" prefHeight="42.0" prefWidth="195.0" promptText="Machine ID">
          <font>
             <Font name="Arial Italic" size="14.0" />
          </font>
