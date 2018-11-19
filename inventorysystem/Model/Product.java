@@ -2,6 +2,14 @@ package inventorysystem.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 /**
@@ -9,126 +17,82 @@ import java.util.List;
  * @author corobinson
  */
 public class Product {
-    private List<Part> associatedParts;
-    private int productID;
-    private String name;
-    private double price;
-    private int inStock;
-    private int min;
-    private int max;
-    // Defines the base of error messages to be thrown
-    private static final String ERROR_MESSAGE = "Please enter a valid ";
+    private final List<Part> associatedParts = new ArrayList<>();
+    private final IntegerProperty productID;
+    private final StringProperty name;
+    private final DoubleProperty price;
+    private final IntegerProperty inStock;
+    private final IntegerProperty min;
+    private final IntegerProperty max;
     
-    public Product(int productID, String name, double price, 
-                   int inStock, int min, int max) {
-        
-        associatedParts = new ArrayList<>();
-        this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.inStock = inStock;
-        this.min = min;
-        this.max = max;
+    public Product() {
+        ObservableList<Part> observableAssociatedParts = 
+                FXCollections.observableArrayList(associatedParts);
+        productID = new SimpleIntegerProperty();
+        name = new SimpleStringProperty();
+        price = new SimpleDoubleProperty();
+        inStock = new SimpleIntegerProperty();
+        min = new SimpleIntegerProperty();
+        max = new SimpleIntegerProperty();
     }
     
-    // Builds error messages using base defined above
-    private static String errorMessageBuilder(String specific) {
-        StringBuilder sb = new StringBuilder(ERROR_MESSAGE);
-        sb.append(specific).append(".");
-        return sb.toString();
-    }
-    
-    public void setProductID(int id) throws IllegalArgumentException {        
-        // Preventing Product ID from being set to 0 or lower
-        if(id > 0) {
-            this.productID = id;
-        }
-        else {
-            throw new IllegalArgumentException(
-                    errorMessageBuilder("product ID"));
-        }
+    public IntegerProperty getProductIDProperty() {
+        return productID;
     }
     
     public int getProductID() {
-        return this.productID;
+        return this.productID.get();
     }
     
-    public void setName(String name) throws IllegalArgumentException {
-        // Preventing name from being set to blank
-        if(name.length() > 0) {
-            this.name = name;
-        }
-        else{
-            throw new IllegalArgumentException(
-                    errorMessageBuilder("product name"));
-        }
+    public void setProductID(int id) {
+        this.productID.set(id);
+    }
+    
+    public StringProperty getNameProperty() {
+        return name;
     }
     
     public String getName() {
-        return this.name;
+        return this.name.get();
     }
     
-    public void setPrice(double price) throws IllegalArgumentException {
-        // Preventing price from being set to 0 or lower
-        if(price > 0) {
-            this.price = price;
-        }
-        
-        else {
-            throw new IllegalArgumentException(
-                    errorMessageBuilder("product price"));
-        }
+    public void setName(String name) {
+        this.name.set(name);
+    }
+    public DoubleProperty getPriceProperty() {
+        return price;
     }
     
     public double getPrice() {
-        return this.price;
+        return this.price.get();
     }
     
-    public void setInStock(int stock) throws IllegalArgumentException {
-        // Preventing stock quantity from being set to a negative int
-        if(stock >= 0) {
-            this.inStock = stock;
-        }
-        
-        else {
-            throw new IllegalArgumentException(
-                    errorMessageBuilder("stock value"));
-        }
+    public void setPrice(double price) {
+        this.price.set(price);
+    }
+   
+    public IntegerProperty getInStockProperty() {
+        return inStock;
     }
     
     public int getInStock() {
-        return this.inStock;
+        return this.inStock.get();
     }
     
-    public void setMin(int min) throws IllegalArgumentException {
-        // Preventing min from being set to a negative int
-        if(min >= 0) {
-            this.min = min;
-        }
-        
-        else {
-            throw new IllegalArgumentException(
-                    errorMessageBuilder("minimum stock value"));
-        }
+    public void setInStock(int stock) {
+        this.inStock.set(stock);
+    }
+    
+     public IntegerProperty getMinProperty() {
+        return min;
     }
     
     public int getMin() {
-        return this.min;
+        return this.min.get();
     }
     
-    public void setMax(int max) throws IllegalArgumentException {
-        // Preventing max from being set to 0 or lower
-        if(max > 0) {
-            this.max = max;
-        }
-        else {
-            throw new IllegalArgumentException (
-                     errorMessageBuilder("maximum stock value"));
-        }
-    }
-    
-    public int getMax() {
-        return this.max;
+    public void setMin(int min) {
+        this.min.set(min);
     }
     
     public void addAssociatedPart(Part part) {

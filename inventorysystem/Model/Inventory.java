@@ -12,8 +12,8 @@ import javafx.collections.ObservableList;
 public class Inventory {
     private static ObservableList<Product> products = FXCollections.observableArrayList();
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
-    private static int partIDCount = 0;
-    private static int productIDCount = 0;
+    private static int partIDCount = 1;
+    private static int productIDCount = 1;
     
     public Inventory(){
     }
@@ -26,12 +26,28 @@ public class Inventory {
         return products;
     }
     
-    public void addProduct(Product product) {
+    public static int getPartIDCount() {
+        return partIDCount;
+    }
+    
+    public static void setPartIDCount(int newCount) {
+            partIDCount = newCount;
+    }
+    
+    public static int getProductIDCount() {
+        return productIDCount;
+    }
+    
+    public static void setProductIDCount(int newCount) {
+            productIDCount = newCount;
+    }
+    
+    public static void addProduct(Product product) {
         // add product
         products.add(product);
     }
     
-    public boolean removeProduct(int id) {
+    public static boolean removeProduct(int id) {
         // remove product
         try{
             products.remove(id);
@@ -44,7 +60,7 @@ public class Inventory {
         return true;
     }
     
-    public Product lookupProduct(int id) {
+    public static Product lookupProduct(int id) {
         try{
             Product productFound = products.get(id);
             return productFound;
@@ -57,30 +73,30 @@ public class Inventory {
         
     }
     
-    public int updateProduct(Product product) {
+    public static int updateProduct(Product product) {
         // update product
             int productIndex = products.indexOf(product);
             products.set(productIndex, product);
             return productIndex;
     }
     
-    public Part lookupPart(Part part) {
+    public static Part lookupPart(Part part) {
         int partIndex = allParts.indexOf(part);
         return allParts.get(partIndex);
     }
     
-    public void addPart(Part part) {
+    public static void addPart(Part part) {
         // add part
         allParts.add(part);
     }
     
-    public boolean deletePart(Part part) {
+    public static boolean deletePart(Part part) {
         // delete part
         boolean isPartDeleted = allParts.remove(part);
         return isPartDeleted;
     }
     
-    public int updatePart(Part part) {
+    public static int updatePart(Part part) {
         // update part
         int partIndex = allParts.indexOf(part);
         allParts.set(partIndex, part);

@@ -26,6 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import inventorysystem.InventorySystem;
 
 /**
  * FXML Controller class
@@ -76,7 +77,7 @@ public class MainScreenController implements Initializable {
     private TextField productSearchField;
     @FXML
     private Button exitButton;
-    private final String BASE_FOLDER_PATH = "/inventorysystem/View_Controller/";
+    
     /**
      * Initializes the controller class.
      */
@@ -84,7 +85,7 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+
     }    
 
     @FXML
@@ -92,7 +93,7 @@ public class MainScreenController implements Initializable {
         System.out.println("Part Add button clicked");
         try {
             Parent root = FXMLLoader.load(getClass().
-                    getResource(BASE_FOLDER_PATH + "AddPart.fxml"));
+                    getResource(InventorySystem.BASE_FOLDER_PATH + "AddPart.fxml"));
             Stage stage = (Stage) partAddButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -105,6 +106,17 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void partModifyButtonHandler(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(InventorySystem.BASE_FOLDER_PATH + "ModifyPart.fxml"));
+            Stage stage = (Stage) partModifyButton.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println("Exception loading Modify Part Screen.");
+            ex.printStackTrace();
+        }
     }
 
     @FXML
