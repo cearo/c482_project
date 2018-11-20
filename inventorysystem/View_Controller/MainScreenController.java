@@ -27,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import inventorysystem.InventorySystem;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -44,7 +45,7 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Part, Integer> partInventory;
     @FXML
-    private TableColumn<Part, Double> partCost;
+    private TableColumn<Part, Double> partPrice;
     @FXML
     private Button partAddButton;
     @FXML
@@ -85,7 +86,15 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        partID.setCellValueFactory(
+            new PropertyValueFactory<Part, Integer>("partID"));
+        partName.setCellValueFactory(
+            new PropertyValueFactory<Part, String>("name"));
+        partInventory.setCellValueFactory(
+            new PropertyValueFactory<Part, Integer>("inStock"));
+        partPrice.setCellValueFactory(
+            new PropertyValueFactory<Part, Double>("price"));
+        partsTable.setItems(Inventory.getPartsArray());
     }    
 
     @FXML
@@ -107,10 +116,31 @@ public class MainScreenController implements Initializable {
     @FXML
     private void partModifyButtonHandler(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().
-                    getResource(InventorySystem.BASE_FOLDER_PATH + "ModifyPart.fxml"));
-            Stage stage = (Stage) partModifyButton.getScene().getWindow();
+            /*
+                Creating a new FXMLLoader object in order to call the controller
+                and pass the modifypartIndex to it so it can find the array
+                and populate its view with data about the selected Part.
+            */
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().
+               getResource(InventorySystem.BASE_FOLDER_PATH + "ModifyPart.fxml"));
+            
+            // Get the part that is currently selected
+            Part modifyPart = partsTable.getSelectionModel().getSelectedItem();
+            System.out.println("Modify Part Name: " + modifyPart.getName());
+            // Get the index of the selected part in the allParts array
+            int modifyPartIndex = Inventory.getPartsArray().indexOf(modifyPart);
+            System.out.println("Modify Part Index: " + modifyPartIndex);
+            
+            System.out.println("Before load");
+            Parent root = loader.load();
+            System.out.println("After Load");
+            ModifyPartController modifyPartScreen = loader.getController();
+            int index = modifyPartScreen.setModifyPartIndex(modifyPartIndex);
+            System.out.println(index);
+            
             Scene scene = new Scene(root);
+            Stage stage = (Stage) partModifyButton.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {

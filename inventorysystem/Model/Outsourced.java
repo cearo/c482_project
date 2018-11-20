@@ -15,15 +15,15 @@ public class Outsourced extends Part {
         companyName = new SimpleStringProperty();
     }
     
-    public StringProperty getCompanyName() {
+    public StringProperty getCompanyNameProperty() {
         return companyName;
     }
     
-    public String getName() {
+    public String getCompanyName() {
         return this.companyName.get();
     }
     
-    public void setName(String name) {
+    public void setCompanyName(String name) {
         this.companyName.set(name);
     }
     

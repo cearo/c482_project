@@ -22,6 +22,7 @@ import inventorysystem.Model.Inventory;
 import inventorysystem.Model.Outsourced;
 import inventorysystem.Model.Part;
 import java.io.IOException;
+import java.util.HashSet;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -88,8 +89,7 @@ public class AddPartController implements Initializable {
 
     @FXML
     private void saveButtonListener(ActionEvent event) {
-        Part newPart;
-        
+
         // Gets the current global ID for Parts
         int partID = Inventory.getPartIDCount();
         
@@ -111,16 +111,28 @@ public class AddPartController implements Initializable {
         // In House radio button selected
         if (optionSelected == inHouseOption) {
             int altFieldInt = Integer.parseInt(altField.getText());
-            newPart = new InHouse(partID, partName, partPrice,
-            partInventory, partMin, partMax, altFieldInt);
+            InHouse newPart = new InHouse();
+            newPart.setPartID(partID);
+            newPart.setName(partName);
+            newPart.setPrice(partPrice);
+            newPart.setInStock(partInventory);
+            newPart.setMin(partMin);
+            newPart.setMax(partMax);
+            newPart.setMachineID(altFieldInt);
+            Inventory.addPart(newPart);
         }
         // Outsourced radio button selected
         else {
-            newPart = new Outsourced(partID, partName, partPrice,
-            partInventory, partMin, partMax, altFieldText);
+            Outsourced newPart = new Outsourced();
+            newPart.setPartID(partID);
+            newPart.setName(partName);
+            newPart.setPrice(partPrice);
+            newPart.setInStock(partInventory);
+            newPart.setMin(partMin);
+            newPart.setMax(partMax);
+            newPart.setCompanyName(altFieldText);
+            Inventory.addPart(newPart);
         }
-        
-        Inventory.addPart(newPart);
         
         System.out.println("Part total: " + Inventory.getPartsArray().size());
         
@@ -133,11 +145,11 @@ public class AddPartController implements Initializable {
 
     @FXML
     private void cancelButtonListener(ActionEvent event) {
-        System.out.println("Part Cancel button pressed");
+        System.out.println("Add Part Cancel button pressed");
         try {
             Parent root = FXMLLoader.load(getClass().
                     getResource(InventorySystem.BASE_FOLDER_PATH + "MainScreen.fxml"));
-            Stage stage = (Stage) saveButton.getScene().getWindow();
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
