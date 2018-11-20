@@ -63,6 +63,7 @@ public class ModifyPartController implements Initializable {
     @FXML
     private Button cancelButton;
     private int modifyPartIndex;
+    private Part selectedPart;
     
 
     /**
@@ -72,28 +73,7 @@ public class ModifyPartController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
          System.out.println("Modify Controller Initialized");
          System.out.println("Modify Part Index: " + modifyPartIndex);
-        String altFieldText;
-        Part part = Inventory.getPartsArray().get(modifyPartIndex);
         
-        if(part instanceof InHouse){
-            int machineID =((InHouse) part).getMachineID();
-            altFieldText = Integer.toString(machineID);
-            inHouseOption.setSelected(true);
-        }
-        else{
-            altFieldText = ((Outsourced) part).getCompanyName();
-            outsourcedOption.setSelected(true);
-        }
-        
-        String partName = part.getName();
-        String partInStock = Integer.toString(part.getInStock());
-        String partID = Integer.toString(part.getPartID());
-        String partMax = Integer.toString(part.getMax());
-        String partMin = Integer.toString(part.getMin());
-        String partPrice = Double.toString(part.getPrice());
-        
-        setFieldText(partName, partInStock, partID, altFieldText, 
-                partMax, partMin, partPrice);
     }    
 
     @FXML
@@ -124,9 +104,32 @@ public class ModifyPartController implements Initializable {
         }
     }
     
-    public int setModifyPartIndex(int index) {
+    public void setModifyPartIndex(int index, Part part) {
         this.modifyPartIndex = index;
-        return this.modifyPartIndex;
+        this.selectedPart = part;
+        String altFieldText;
+        //Part part = Inventory.getPartsArray().get(modifyPartIndex);
+        
+        if(part instanceof InHouse){
+            int machineID =((InHouse) part).getMachineID();
+            altFieldText = Integer.toString(machineID);
+            inHouseOption.setSelected(true);
+        }
+        else{
+            altFieldText = ((Outsourced) part).getCompanyName();
+            outsourcedOption.setSelected(true);
+        }
+        
+        String partName = selectedPart.getName();
+        String partInStock = Integer.toString(selectedPart.getInStock());
+        String partID = Integer.toString(selectedPart.getPartID());
+        String partMax = Integer.toString(selectedPart.getMax());
+        String partMin = Integer.toString(selectedPart.getMin());
+        String partPrice = Double.toString(selectedPart.getPrice());
+        
+        setFieldText(partName, partInStock, partID, altFieldText, 
+                partMax, partMin, partPrice);
+        //return this.modifyPartIndex;
     }
     
     public void setFieldText(String name, String inventory, String id, 

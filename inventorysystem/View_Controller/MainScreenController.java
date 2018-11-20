@@ -20,8 +20,6 @@ import inventorysystem.Model.Outsourced;
 import inventorysystem.Model.Product;
 import inventorysystem.Model.Part;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -87,13 +85,13 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         partID.setCellValueFactory(
-            new PropertyValueFactory<Part, Integer>("partID"));
+            new PropertyValueFactory<>("partID"));
         partName.setCellValueFactory(
-            new PropertyValueFactory<Part, String>("name"));
+            new PropertyValueFactory<>("name"));
         partInventory.setCellValueFactory(
-            new PropertyValueFactory<Part, Integer>("inStock"));
+            new PropertyValueFactory<>("inStock"));
         partPrice.setCellValueFactory(
-            new PropertyValueFactory<Part, Double>("price"));
+            new PropertyValueFactory<>("price"));
         partsTable.setItems(Inventory.getPartsArray());
     }    
 
@@ -135,9 +133,8 @@ public class MainScreenController implements Initializable {
             System.out.println("Before load");
             Parent root = loader.load();
             System.out.println("After Load");
-            ModifyPartController modifyPartScreen = loader.getController();
-            int index = modifyPartScreen.setModifyPartIndex(modifyPartIndex);
-            System.out.println(index);
+            ModifyPartController controller = loader.getController();
+            controller.setModifyPartIndex(modifyPartIndex, modifyPart);
             
             Scene scene = new Scene(root);
             Stage stage = (Stage) partModifyButton.getScene().getWindow();
