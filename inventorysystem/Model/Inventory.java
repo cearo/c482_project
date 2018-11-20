@@ -1,6 +1,7 @@
 package inventorysystem.Model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -90,16 +91,16 @@ public class Inventory {
         allParts.add(part);
     }
     
-    public static boolean deletePart(Part part) {
+    public static boolean removePart(Part part) {
         // delete part
         boolean isPartDeleted = allParts.remove(part);
         return isPartDeleted;
     }
     
-    public static int updatePart(Part part) {
+    public static int updatePart(int id, Part part) {
         // update part
-        int partIndex = allParts.indexOf(part);
-        allParts.set(partIndex, part);
-        return partIndex;
+        allParts.set(id, part);
+        
+        return allParts.indexOf(part);
     }
 }

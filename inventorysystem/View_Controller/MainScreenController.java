@@ -84,6 +84,7 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         partID.setCellValueFactory(
             new PropertyValueFactory<>("partID"));
         partName.setCellValueFactory(
@@ -121,20 +122,22 @@ public class MainScreenController implements Initializable {
             */
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().
-               getResource(InventorySystem.BASE_FOLDER_PATH + "ModifyPart.fxml"));
+               getResource(InventorySystem.BASE_FOLDER_PATH + 
+                            "ModifyPart.fxml"));
             
             // Get the part that is currently selected
             Part modifyPart = partsTable.getSelectionModel().getSelectedItem();
             System.out.println("Modify Part Name: " + modifyPart.getName());
-            // Get the index of the selected part in the allParts array
-            int modifyPartIndex = Inventory.getPartsArray().indexOf(modifyPart);
-            System.out.println("Modify Part Index: " + modifyPartIndex);
-            
+
             System.out.println("Before load");
             Parent root = loader.load();
             System.out.println("After Load");
+            
+            // Obtains the ModifyPartController
             ModifyPartController controller = loader.getController();
-            controller.setModifyPartIndex(modifyPartIndex, modifyPart);
+            
+            // Passes the Part object to be modified to the ModifyPartController
+            controller.setSelectedPart(modifyPart);
             
             Scene scene = new Scene(root);
             Stage stage = (Stage) partModifyButton.getScene().getWindow();
@@ -148,6 +151,10 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void partDeleteButtonHandler(ActionEvent event) {
+        // Gets the currently selected part
+        Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        boolean result = Inventory.removePart(selectedPart);
+        System.out.println(result);
     }
 
     @FXML
