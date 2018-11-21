@@ -14,7 +14,7 @@
    <children>
       <Pane layoutX="19.0" layoutY="12.0" prefHeight="708.0" prefWidth="1233.0" style="-fx-border-color: #999999; -fx-border-radius: 5px;">
          <children>
-            <TableView fx:id="productsTable" layoutX="724.0" layoutY="352.0" prefHeight="200.0" prefWidth="482.0">
+            <TableView fx:id="productsTable" layoutX="724.0" layoutY="356.0" prefHeight="200.0" prefWidth="482.0">
                <columns>
                   <TableColumn fx:id="productID" prefWidth="120.0" text="Product ID" />
                   <TableColumn fx:id="productName" prefWidth="120.0" text="Product Name" />
@@ -40,7 +40,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="1084.0" layoutY="573.0" mnemonicParsing="false" onAction="#deleteButtonListener" prefHeight="36.0" prefWidth="100.0" text="Delete">
+            <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="1084.0" layoutY="577.0" mnemonicParsing="false" onAction="#deleteButtonListener" prefHeight="36.0" prefWidth="100.0" text="Delete">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -63,28 +63,7 @@
             </Button>
             <AnchorPane id="AddPartMain" layoutX="45.0" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="543.0" style="-fx-background-color: #c0c0c0;">
                <children>
-                  <RadioButton fx:id="inHouseOption" layoutX="195.0" layoutY="27.0" mnemonicParsing="false" onAction="#inHouseOptionListener" prefHeight="17.0" prefWidth="92.0" text="In-House">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="partSource" />
-                     </toggleGroup>
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton fx:id="outsourcedOption" layoutX="355.0" layoutY="27.0" mnemonicParsing="false" onAction="#outsourcedOptionListener" text="Outsourced" toggleGroup="$partSource">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                  </RadioButton>
                   <Label layoutX="59.0" layoutY="97.0" prefHeight="21.0" prefWidth="66.0" text="ID">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="altFieldLabel" layoutX="59.0" layoutY="371.0" prefHeight="21.0" prefWidth="106.0" text="Company Name">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
@@ -119,7 +98,7 @@
                         <Font name="Arial Italic" size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="inventory" layoutX="174.0" layoutY="195.0" prefHeight="42.0" prefWidth="195.0" promptText="Inventory">
+                  <TextField fx:id="inventory" layoutX="170.0" layoutY="195.0" prefHeight="42.0" prefWidth="195.0" promptText="Inventory">
                      <font>
                         <Font name="Arial Italic" size="14.0" />
                      </font>
@@ -132,11 +111,6 @@
                   <TextField fx:id="id" disable="true" editable="false" layoutX="170.0" layoutY="90.0" prefHeight="42.0" prefWidth="195.0" text="Auto Gen - Disabled">
                      <font>
                         <Font name="System Italic" size="14.0" />
-                     </font>
-                  </TextField>
-                  <TextField fx:id="altField" layoutX="170.0" layoutY="360.0" prefHeight="42.0" prefWidth="195.0" promptText="Company Name">
-                     <font>
-                        <Font name="Arial Italic" size="14.0" />
                      </font>
                   </TextField>
                   <TextField fx:id="max" layoutX="170.0" layoutY="304.0" prefHeight="42.0" prefWidth="128.0" promptText="Maximum">

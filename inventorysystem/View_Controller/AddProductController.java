@@ -1,15 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem.View_Controller;
 
+import inventorysystem.InventorySystem;
+import inventorysystem.Model.Inventory;
+import inventorysystem.Model.Part;
+import inventorysystem.Model.Product;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -17,6 +20,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -26,25 +31,25 @@ import javafx.scene.control.ToggleGroup;
 public class AddProductController implements Initializable {
 
     @FXML
-    private TableView<?> productsTable;
+    private TableView<Product> productsTable;
     @FXML
-    private TableColumn<?, ?> productID;
+    private TableColumn<Product, Integer> productID;
     @FXML
-    private TableColumn<?, ?> productName;
+    private TableColumn<Product, String> productName;
     @FXML
-    private TableColumn<?, ?> productInventory;
+    private TableColumn<Product, Integer> productInventory;
     @FXML
-    private TableColumn<?, ?> productPrice;
+    private TableColumn<Product, Double> productPrice;
     @FXML
-    private TableView<?> partsTable;
+    private TableView<Part> partsTable;
     @FXML
-    private TableColumn<?, ?> partID;
+    private TableColumn<Part, Integer> partID;
     @FXML
-    private TableColumn<?, ?> partName;
+    private TableColumn<Part, String> partName;
     @FXML
-    private TableColumn<?, ?> partInventory;
+    private TableColumn<Part, Integer> partInventory;
     @FXML
-    private TableColumn<?, ?> partPrice;
+    private TableColumn<Part, Double> partPrice;
     @FXML
     private Button addButton;
     @FXML
@@ -85,7 +90,28 @@ public class AddProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        // Setting Part TableView data
+        partID.setCellValueFactory(
+            new PropertyValueFactory<>("partID"));
+        partName.setCellValueFactory(
+            new PropertyValueFactory<>("name"));
+        partInventory.setCellValueFactory(
+            new PropertyValueFactory<>("inStock"));
+        partPrice.setCellValueFactory(
+            new PropertyValueFactory<>("price"));
+        partsTable.setItems(Inventory.getPartsArray());
+        
+        // Setting Product TableView data
+        productID.setCellValueFactory(
+            new PropertyValueFactory<>("productID"));
+        productName.setCellValueFactory(
+            new PropertyValueFactory<>("name"));
+        productInventory.setCellValueFactory(
+            new PropertyValueFactory<>("inStock"));
+        productPrice.setCellValueFactory(
+            new PropertyValueFactory<>("price"));
+        productsTable.setItems(Inventory.getProductsArray());
     }    
 
     @FXML
@@ -102,10 +128,39 @@ public class AddProductController implements Initializable {
 
     @FXML
     private void cancelButtonListener(ActionEvent event) {
+        changeScreen("MainScreen", cancelButton);
     }
 
     @FXML
     private void saveButtonListener(ActionEvent event) {
+        
+        // Gets current global ID for Products
+        int productID = Inventory.getProductIDCount();
+        
+        // Increments Product ID Count
+        int productIDIncremented = productID + 1;
+        // Setting incremented ID
+        Inventory.setProductIDCount(productIDIncremented);
+        
+        // Gathering form field data
+        String productName = name.getText();
+        int productInventory = Integer.parseInt(inventory.getText());
+        double productPrice = Double.parseDouble(price.getText());
+        int productMax = Integer.parseInt(max.getText());
+        int productMin = Integer.parseInt(min.getText());
+        
+        Product newProduct = new Product();
+        
+        // Setting Product object fields
+        newProduct.setProductID(productID);
+        newProduct.setName(productName);
+        newProduct.setPrice(productPrice);
+        newProduct.setInStock(productInventory);
+        newProduct.setMin(productMin);
+        newProduct.setMax(productMax);
+        
+        // Adding newly created Product to the Product Array
+        Inventory.addProduct(newProduct);
     }
 
     @FXML
@@ -116,4 +171,19 @@ public class AddProductController implements Initializable {
     private void outsourcedOptionListener(ActionEvent event) {
     }
     
+    private void changeScreen (String screenName, Button buttonPressed) {
+        String screenFile = screenName + ".fxml";
+        try {
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            InventorySystem.BASE_FOLDER_PATH + screenFile));
+            Stage stage = (Stage) buttonPressed.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println("Exception loading Add Part Screen.");
+            ex.printStackTrace();
+        }
+    }
 }

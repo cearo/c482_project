@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package inventorysystem.View_Controller;
 
 import java.net.URL;
@@ -83,8 +78,8 @@ public class MainScreenController implements Initializable {
 //    public MainScreenController(){};
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         
+        // Setting Part TableView data
         partID.setCellValueFactory(
             new PropertyValueFactory<>("partID"));
         partName.setCellValueFactory(
@@ -94,22 +89,35 @@ public class MainScreenController implements Initializable {
         partPrice.setCellValueFactory(
             new PropertyValueFactory<>("price"));
         partsTable.setItems(Inventory.getPartsArray());
+        
+        // Setting Product TableView data
+        productID.setCellValueFactory(
+            new PropertyValueFactory<>("productID"));
+        productName.setCellValueFactory(
+            new PropertyValueFactory<>("name"));
+        productInventory.setCellValueFactory(
+            new PropertyValueFactory<>("inStock"));
+        productPrice.setCellValueFactory(
+            new PropertyValueFactory<>("price"));
+        productsTable.setItems(Inventory.getProductsArray());
+        
     }    
 
     @FXML
     private void partAddButtonHandler(ActionEvent event) {
         System.out.println("Part Add button clicked");
-        try {
-            Parent root = FXMLLoader.load(getClass().
-                    getResource(InventorySystem.BASE_FOLDER_PATH + "AddPart.fxml"));
-            Stage stage = (Stage) partAddButton.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            System.out.println("Exception loading Add Part Screen.");
-            ex.printStackTrace();
-        }
+//        try {
+//            Parent root = FXMLLoader.load(getClass().
+//                    getResource(InventorySystem.BASE_FOLDER_PATH + "AddPart.fxml"));
+//            Stage stage = (Stage) partAddButton.getScene().getWindow();
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException ex) {
+//            System.out.println("Exception loading Add Part Screen.");
+//            ex.printStackTrace();
+//        }
+        changeScreen("AddPart", partAddButton);
     }
 
     @FXML
@@ -154,7 +162,6 @@ public class MainScreenController implements Initializable {
         // Gets the currently selected part
         Part selectedPart = partsTable.getSelectionModel().getSelectedItem();
         boolean result = Inventory.removePart(selectedPart);
-        System.out.println(result);
     }
 
     @FXML
@@ -163,6 +170,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void productAddButtonListener(ActionEvent event) {
+        changeScreen("AddProduct", productAddButton);
     }
 
     @FXML
@@ -177,4 +185,19 @@ public class MainScreenController implements Initializable {
     private void exitButtonListener(ActionEvent event) {
     }
     
+    private void changeScreen (String screenName, Button buttonPressed) {
+        String screenFile = screenName + ".fxml";
+        try {
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            InventorySystem.BASE_FOLDER_PATH + screenFile));
+            Stage stage = (Stage) buttonPressed.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println("Exception loading Add Part Screen.");
+            ex.printStackTrace();
+        }
+    }
 }

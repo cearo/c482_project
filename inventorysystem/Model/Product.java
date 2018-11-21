@@ -95,6 +95,14 @@ public class Product {
         this.min.set(min);
     }
     
+    public int getMax() {
+        return this.max.get();
+    }
+    
+    public void setMax(int max) {
+        this.max.set(max);
+    }
+    
     public void addAssociatedPart(Part part) {
         // add associated part
     }
