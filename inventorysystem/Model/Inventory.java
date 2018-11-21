@@ -45,10 +45,10 @@ public class Inventory {
         products.add(product);
     }
     
-    public static boolean removeProduct(int id) {
+    public static boolean removeProduct(Product product) {
         // remove product
         try{
-            products.remove(id);
+            products.remove(product);
         }
         catch(Exception e){
             // Item was not removed, return false
@@ -71,11 +71,10 @@ public class Inventory {
         
     }
     
-    public static int updateProduct(Product product) {
+    public static int updateProduct(int index, Product product) {
         // update product
-            int productIndex = products.indexOf(product);
-            products.set(productIndex, product);
-            return productIndex;
+        products.set(index, product);
+        return index;
     }
     
     public static Part lookupPart(Part part) {
@@ -94,9 +93,9 @@ public class Inventory {
         return isPartDeleted;
     }
     
-    public static int updatePart(int id, Part part) {
+    public static int updatePart(int index, Part part) {
         // update part
-        allParts.set(id, part);
+        allParts.set(index, part);
         
         return allParts.indexOf(part);
     }

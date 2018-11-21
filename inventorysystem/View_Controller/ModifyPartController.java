@@ -157,20 +157,21 @@ public class ModifyPartController implements Initializable {
             outsourcedOption.setSelected(true);
         }
         
+        // Getting Part object data which will be used to populate the form
         String partName = selectedPart.getName();
-        String partInStock = Integer.toString(selectedPart.getInStock());
+        String partInventory = Integer.toString(selectedPart.getInStock());
         String partID = Integer.toString(selectedPart.getPartID());
         String partMax = Integer.toString(selectedPart.getMax());
         String partMin = Integer.toString(selectedPart.getMin());
         String partPrice = Double.toString(selectedPart.getPrice());
-        
-        setFieldText(partName, partInStock, partID, altFieldText, 
+        // Populating the form
+        setFieldText(partName, partInventory, partID, altFieldText, 
                 partMax, partMin, partPrice);
         //return this.modifyPartIndex;
     }
     
     // Sets the text in the form fields
-    public void setFieldText(String name, String inventory, String id, 
+    private void setFieldText(String name, String inventory, String id, 
             String altField, String max, String min, String price) {
         this.name.setText(name);
         this.inventory.setText(inventory);
@@ -183,7 +184,7 @@ public class ModifyPartController implements Initializable {
     }
     
     // Takes button pressed and directs the Stage back to MainScreen.fxml
-    public void loadMainScreen(Button buttonPressed) {
+    private void loadMainScreen(Button buttonPressed) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(
                     InventorySystem.BASE_FOLDER_PATH + "MainScreen.fxml"));

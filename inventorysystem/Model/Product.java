@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 
@@ -17,7 +18,8 @@ import javafx.collections.ObservableList;
  * @author corobinson
  */
 public class Product {
-    private final List<Part> associatedParts = new ArrayList<>();
+    private final ObservableList<Part> associatedParts =
+                FXCollections.observableArrayList();
     private final IntegerProperty productID;
     private final StringProperty name;
     private final DoubleProperty price;
@@ -25,9 +27,8 @@ public class Product {
     private final IntegerProperty min;
     private final IntegerProperty max;
     
+    
     public Product() {
-        ObservableList<Part> observableAssociatedParts = 
-                FXCollections.observableArrayList(associatedParts);
         productID = new SimpleIntegerProperty();
         name = new SimpleStringProperty();
         price = new SimpleDoubleProperty();
@@ -112,6 +113,9 @@ public class Product {
         return true;
     }
     
+    public ObservableList getAssociatedPartsArray(){
+        return this.associatedParts;
+    }
 //    public Part lookupAssociatedPart(int id) {
 //        Part placeHolder = new InHouse();
 //        return placeHolder;

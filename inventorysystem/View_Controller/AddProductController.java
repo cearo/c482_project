@@ -136,11 +136,14 @@ public class AddProductController implements Initializable {
         
         // Gets current global ID for Products
         int productID = Inventory.getProductIDCount();
+        System.out.println("Product ID: " + productID);
         
         // Increments Product ID Count
         int productIDIncremented = productID + 1;
         // Setting incremented ID
         Inventory.setProductIDCount(productIDIncremented);
+        
+        System.out.println("Product ID Incremented: " + Inventory.getProductIDCount());
         
         // Gathering form field data
         String productName = name.getText();
@@ -161,6 +164,8 @@ public class AddProductController implements Initializable {
         
         // Adding newly created Product to the Product Array
         Inventory.addProduct(newProduct);
+        
+        changeScreen("MainScreen", saveButton);
     }
 
     @FXML

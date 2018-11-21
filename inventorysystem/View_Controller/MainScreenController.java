@@ -175,10 +175,45 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void productDeleteButtonListener(ActionEvent event) {
+        Product selectedProduct = productsTable.
+                getSelectionModel().getSelectedItem();
+        boolean result = Inventory.removeProduct(selectedProduct);
     }
 
     @FXML
     private void productModifyButtonListener(ActionEvent event) {
+        try {
+            /*
+                Creating a new FXMLLoader object in order to call the controller
+                and pass the modifypartIndex to it so it can find the array
+                and populate its view with data about the selected Part.
+            */
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().
+               getResource(InventorySystem.BASE_FOLDER_PATH + 
+                            "ModifyProduct.fxml"));
+            
+            // Get the part that is currently selected
+            Product modifyProduct = 
+                    productsTable.getSelectionModel().getSelectedItem();
+
+            Parent root = loader.load();
+            
+            // Obtains the ModifyPartController
+            ModifyProductController controller = loader.getController();
+            
+            // Passes the Part object to be modified to the ModifyPartController
+            controller.setSelectedProduct(modifyProduct);
+            controller.fillTableCellData();
+            
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) productModifyButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println("Exception loading Modify Part Screen.");
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -186,11 +221,11 @@ public class MainScreenController implements Initializable {
     }
     
     private void changeScreen (String screenName, Button buttonPressed) {
-        String screenFile = screenName + ".fxml";
+        final String SCREEN_FILE = screenName + ".fxml";
         try {
             Parent root = FXMLLoader.load(getClass().
                     getResource(
-                            InventorySystem.BASE_FOLDER_PATH + screenFile));
+                            InventorySystem.BASE_FOLDER_PATH + SCREEN_FILE));
             Stage stage = (Stage) buttonPressed.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);

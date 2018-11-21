@@ -1,10 +1,20 @@
 package inventorysystem.View_Controller;
 
+import inventorysystem.InventorySystem;
+import inventorysystem.Model.Inventory;
+import inventorysystem.Model.Part;
+import inventorysystem.Model.Product;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -12,6 +22,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -21,25 +33,25 @@ import javafx.scene.control.ToggleGroup;
 public class ModifyProductController implements Initializable {
 
     @FXML
-    private TableView<?> productsTable;
+    private TableView<Product> productsTable;
     @FXML
-    private TableColumn<?, ?> prodID;
+    private TableColumn<Product, Integer> productID;
     @FXML
-    private TableColumn<?, ?> prodName;
+    private TableColumn<Product, String> productName;
     @FXML
-    private TableColumn<?, ?> prodInv;
+    private TableColumn<Product, Integer> productInventory;
     @FXML
-    private TableColumn<?, ?> prodPrice;
+    private TableColumn<Product, Double> productPrice;
     @FXML
-    private TableView<?> partsTable;
+    private TableView<Part> partsTable;
     @FXML
-    private TableColumn<?, ?> partID;
+    private TableColumn<Part, Integer> partID;
     @FXML
-    private TableColumn<?, ?> partName;
+    private TableColumn<Part, String> partName;
     @FXML
-    private TableColumn<?, ?> partInv;
+    private TableColumn<Part, Integer> partInventory;
     @FXML
-    private TableColumn<?, ?> partPrice;
+    private TableColumn<Part, Double> partPrice;
     @FXML
     private Button addButton;
     @FXML
@@ -53,14 +65,6 @@ public class ModifyProductController implements Initializable {
     @FXML
     private Button saveButton;
     @FXML
-    private RadioButton inHouseOption;
-    @FXML
-    private ToggleGroup partSource;
-    @FXML
-    private RadioButton outsourceOption;
-    @FXML
-    private Label altFieldLabel;
-    @FXML
     private TextField name;
     @FXML
     private TextField inventory;
@@ -69,22 +73,32 @@ public class ModifyProductController implements Initializable {
     @FXML
     private TextField id;
     @FXML
-    private TextField altField;
-    @FXML
     private TextField max;
     @FXML
     private TextField min;
+    
+    private Product selectedProduct;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        
     }    
 
     @FXML
     private void addButtonListener(ActionEvent event) {
+        System.out.println("Product Part Add Button Pressed");
+        // Obtains Parts Selected
+        ObservableList<Part> selectedPart = 
+                partsTable.getSelectionModel().getSelectedItems();
+        System.out.println("Selected Part Array: " + selectedPart.toString());
+        for(Part part : selectedPart) {
+            selectedProduct.addAssociatedPart(part);
+        }
+        
     }
 
     @FXML
@@ -97,18 +111,99 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     private void cancelButtonListener(ActionEvent event) {
+        loadMainScreen(cancelButton);
     }
 
     @FXML
     private void saveButtonListener(ActionEvent event) {
+        int productIndex = Inventory.getProductsArray().
+                indexOf(selectedProduct);
+        
+        String productName = name.getText();
+        int productID = Integer.parseInt(id.getText());
+        int productInventory = Integer.parseInt(inventory.getText());
+        double productPrice = Double.parseDouble(price.getText());
+        int productMax = Integer.parseInt(max.getText());
+        int productMin = Integer.parseInt(min.getText());
+        
+//        Product newProduct = new Product();
+        selectedProduct.setProductID(productID);
+        selectedProduct.setName(productName);
+        selectedProduct.setInStock(productInventory);
+        selectedProduct.setPrice(productPrice);
+        selectedProduct.setMax(productMax);
+        selectedProduct.setMin(productMin);
+        
+//        Inventory.updateProduct(productIndex, newProduct);
+        
+        loadMainScreen(saveButton);
     }
-
-    @FXML
-    private void inHouseListener(ActionEvent event) {
+    
+    public void setSelectedProduct(Product product) {
+        this.selectedProduct = product;
+        
+        // Getting Product object data which will be used to populate the form
+        String productName = selectedProduct.getName();
+        String productInventory = Integer.toString(
+                selectedProduct.getInStock());
+        String productPrice = Double.toString(selectedProduct.getPrice());
+        String productID = Integer.toString(selectedProduct.getProductID());
+        String productMax = Integer.toString(selectedProduct.getMax());
+        String productMin = Integer.toString(selectedProduct.getMin());
+        // Populating the form
+        setFieldText(productName, productInventory, productPrice, 
+                productID, productMax, productMin);
     }
-
-    @FXML
-    private void outsourceListener(ActionEvent event) {
+    
+    private void setFieldText(String name, String inventory, String price, 
+            String id, String max, String min) {
+        this.name.setText(name);
+        this.inventory.setText(inventory);
+        this.price.setText(price);
+        this.id.setText(id);
+        this.max.setText(max);
+        this.min.setText(min);
+    }
+    
+    // Takes button pressed and directs the Stage back to MainScreen.fxml
+    private void loadMainScreen(Button buttonPressed) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(
+                    InventorySystem.BASE_FOLDER_PATH + "MainScreen.fxml"));
+            Stage stage = (Stage) buttonPressed.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(
+                    "Exception loading MainScreen from Modify Part Screen.");
+            ex.printStackTrace();
+        }
+    
+    }
+    
+    public void fillTableCellData() {
+        // Setting Part TableView data
+        partID.setCellValueFactory(
+            new PropertyValueFactory<>("partID"));
+        partName.setCellValueFactory(
+            new PropertyValueFactory<>("name"));
+        partInventory.setCellValueFactory(
+            new PropertyValueFactory<>("inStock"));
+        partPrice.setCellValueFactory(
+            new PropertyValueFactory<>("price"));
+        partsTable.setItems(Inventory.getPartsArray());
+        
+        // Setting Product TableView data
+        productID.setCellValueFactory(
+            new PropertyValueFactory<>("productID"));
+        productName.setCellValueFactory(
+            new PropertyValueFactory<>("name"));
+        productInventory.setCellValueFactory(
+            new PropertyValueFactory<>("inStock"));
+        productPrice.setCellValueFactory(
+            new PropertyValueFactory<>("price"));
+        productsTable.setItems(selectedProduct.getAssociatedPartsArray());
     }
     
 }
