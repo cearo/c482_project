@@ -33,15 +33,15 @@ import javafx.stage.Stage;
 public class ModifyProductController implements Initializable {
 
     @FXML
-    private TableView<Product> productsTable;
+    private TableView<Part> productPartsTable;
     @FXML
-    private TableColumn<Product, Integer> productID;
+    private TableColumn<Part, Integer> productPartID;
     @FXML
-    private TableColumn<Product, String> productName;
+    private TableColumn<Part, String> productPartName;
     @FXML
-    private TableColumn<Product, Integer> productInventory;
+    private TableColumn<Part, Integer> productPartInventory;
     @FXML
-    private TableColumn<Product, Double> productPrice;
+    private TableColumn<Part, Double> productPartPrice;
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -98,11 +98,16 @@ public class ModifyProductController implements Initializable {
         for(Part part : selectedPart) {
             selectedProduct.addAssociatedPart(part);
         }
-        
+        //fillTableCellData();
+        System.out.println(Inventory.getPartsArray().size());
+        System.out.println(selectedProduct.getAssociatedPartsArray().size());
     }
 
     @FXML
     private void deleteButtonListener(ActionEvent event) {
+        Part selectedPart = 
+                productPartsTable.getSelectionModel().getSelectedItem();
+        this.selectedProduct.removeAssociatedPart(selectedPart.getPartID());
     }
 
     @FXML
@@ -195,15 +200,15 @@ public class ModifyProductController implements Initializable {
         partsTable.setItems(Inventory.getPartsArray());
         
         // Setting Product TableView data
-        productID.setCellValueFactory(
+        productPartID.setCellValueFactory(
             new PropertyValueFactory<>("productID"));
-        productName.setCellValueFactory(
+        productPartName.setCellValueFactory(
             new PropertyValueFactory<>("name"));
-        productInventory.setCellValueFactory(
+        productPartInventory.setCellValueFactory(
             new PropertyValueFactory<>("inStock"));
-        productPrice.setCellValueFactory(
+        productPartPrice.setCellValueFactory(
             new PropertyValueFactory<>("price"));
-        productsTable.setItems(selectedProduct.getAssociatedPartsArray());
+        productPartsTable.setItems(selectedProduct.getAssociatedPartsArray());
     }
     
 }

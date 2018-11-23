@@ -31,15 +31,15 @@ import javafx.stage.Stage;
 public class AddProductController implements Initializable {
 
     @FXML
-    private TableView<Product> productsTable;
+    private TableView<Product> productPartsTable;
     @FXML
-    private TableColumn<Product, Integer> productID;
+    private TableColumn<Product, Integer> productPartID;
     @FXML
-    private TableColumn<Product, String> productName;
+    private TableColumn<Product, String> productPartName;
     @FXML
-    private TableColumn<Product, Integer> productInventory;
+    private TableColumn<Product, Integer> productPartInventory;
     @FXML
-    private TableColumn<Product, Double> productPrice;
+    private TableColumn<Product, Double> productPartPrice;
     @FXML
     private TableView<Part> partsTable;
     @FXML
@@ -103,15 +103,15 @@ public class AddProductController implements Initializable {
         partsTable.setItems(Inventory.getPartsArray());
         
         // Setting Product TableView data
-        productID.setCellValueFactory(
+        productPartID.setCellValueFactory(
             new PropertyValueFactory<>("productID"));
-        productName.setCellValueFactory(
+        productPartName.setCellValueFactory(
             new PropertyValueFactory<>("name"));
-        productInventory.setCellValueFactory(
+        productPartInventory.setCellValueFactory(
             new PropertyValueFactory<>("inStock"));
-        productPrice.setCellValueFactory(
+        productPartPrice.setCellValueFactory(
             new PropertyValueFactory<>("price"));
-        productsTable.setItems(Inventory.getProductsArray());
+        productPartsTable.setItems(Inventory.getProductsArray());
     }    
 
     @FXML

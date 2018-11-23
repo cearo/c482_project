@@ -106,11 +106,12 @@ public class Product {
     
     public void addAssociatedPart(Part part) {
         // add associated part
+        this.associatedParts.add(part);
     }
     
     public boolean removeAssociatedPart(int id) {
         // remove associated part
-        return true;
+        return this.associatedParts.removeIf(obj -> obj.getPartID() == id);
     }
     
     public ObservableList getAssociatedPartsArray(){
