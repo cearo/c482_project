@@ -85,7 +85,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button fx:id="productSearchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="8.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="100.0" text="Search">
+            <Button fx:id="productSearchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="230.0" layoutY="8.0" mnemonicParsing="false" onAction="#productSearchButtonHandler" prefHeight="36.0" prefWidth="100.0" text="Search">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

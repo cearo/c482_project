@@ -46,40 +46,57 @@ public class Inventory {
     }
     
     public static boolean removeProduct(Product product) {
-        // remove product
-        try{
-            products.remove(product);
-        }
-        catch(Exception e){
-            // Item was not removed, return false
-            System.out.println("Exception removing item: \n" + e);
-            return false;
-        }
-        return true;
+        boolean isProductDeleted = products.remove(product);
+        return isProductDeleted;
     }
-    
+    // Lookup Product by ID
     public static Product lookupProduct(int id) {
-        try{
-            Product productFound = products.get(id);
-            return productFound;
+        Product productFound = null;
+        for(Product product: products){
+            int productID = product.getProductID();
+            if(id == productID) {
+                productFound = product;
+            }
         }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("Exception in product lookup: " + e.toString());
-            throw new IndexOutOfBoundsException("Product ID " + id +
-                    " is invalid.");
-        }
-        
+        return productFound;
     }
-    
+    // Lookup Product by Name
+    public static Product lookupProduct(String name) {
+        Product productFound = null;
+        for(Product product: products){
+            String productName = product.getName();
+            if(productName.equals(name)) {
+                productFound = product;
+            }
+        }
+        return productFound;
+    }
     public static int updateProduct(int index, Product product) {
         // update product
         products.set(index, product);
         return index;
     }
-    
-    public static Part lookupPart(Part part) {
-        int partIndex = allParts.indexOf(part);
-        return allParts.get(partIndex);
+    // Lookup Part by ID
+    public static Part lookupPart(int id) {
+        Part partFound = null;
+        for(Part part: allParts){
+            int partID = part.getPartID();
+            if(partID == id){
+                partFound = part;
+            }
+        }
+        return partFound;
+    }
+    // Lookup Part by Name
+    public static Part lookupPart(String name){
+        Part partFound = null;
+        for(Part part: allParts){
+            String partName = part.getName();
+            if(partName.equals(name)){
+                partFound = part;
+            }
+        }
+        return partFound;
     }
     
     public static void addPart(Part part) {

@@ -7,6 +7,7 @@ import inventorysystem.Model.Outsourced;
 import inventorysystem.Model.Part;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -60,45 +63,35 @@ public class ModifyPartController implements Initializable {
     private Button cancelButton;
     // The part to be modified
     private Part selectedPart;
-    /*
-        A field for holding the value of what was stored in altField. This will
-        allow users to switch between the InHouse and Outsourced options without
-        losing what is already stored in the array. The field will clear upon 
-        selecting one of the options but, when returning to the previous option
-        the old value will still be there.
-    */
-    private String currentAltFieldText;
-    
-
+   
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         System.out.println("Modify Controller Initialized");
     }   
-
+    // This Listener will set the selected option to In House
     @FXML
     private void inHouseOptionListener(ActionEvent event) {
         outsourcedOption.setSelected(false);
-//        setCurrentAltFieldText();
+        // In House Parts have Machine IDs
         altFieldLabel.setText("Machine ID");
         altField.setPromptText("Machine ID");
     }
-
+    // This Listener will set the selected option to Outsourced
     @FXML
     private void outsourcedOptionListener(ActionEvent event) {
         inHouseOption.setSelected(false);
-//        setCurrentAltFieldText();
+        // Outsourced Parts have Company Names
         altFieldLabel.setText("Company Name");
         altField.setPromptText("Company Name");
     }
 
     @FXML
     private void saveButtonListener(ActionEvent event) {
-        System.out.println("Modify Part Save Button Pressed");
+        // Get the index of the selected Part
         int partIndex = Inventory.getPartsArray().indexOf(selectedPart);
-
+        // Get Form data and convert it to proper data types
         String partName = name.getText();
         int partID = Integer.parseInt(id.getText());
         int partInventory = Integer.parseInt(inventory.getText());
@@ -109,7 +102,7 @@ public class ModifyPartController implements Initializable {
         
         // Gathers which radio button was selected at the time of save
         Toggle optionSelected = partSource.getSelectedToggle();
-        
+        // Creating a new In House Part
         if(optionSelected == inHouseOption) {
             int altFieldInt = Integer.parseInt(altFieldText);
             InHouse newPart = new InHouse();
@@ -120,8 +113,10 @@ public class ModifyPartController implements Initializable {
             newPart.setMin(partMin);
             newPart.setMax(partMax);
             newPart.setMachineID(altFieldInt);
+            // Updating the Part
             Inventory.updatePart(partIndex, newPart);
         }
+        // Creating a new Outsourced Part
         else {
             Outsourced newPart = new Outsourced();
             newPart.setPartID(partID);
@@ -131,15 +126,36 @@ public class ModifyPartController implements Initializable {
             newPart.setMin(partMin);
             newPart.setMax(partMax);
             newPart.setCompanyName(altFieldText);
+            // Updating the Part
             Inventory.updatePart(partIndex, newPart);
         }
-        loadMainScreen(saveButton);
+        changeScreen("MainScreen", saveButton);
     }
 
     @FXML
     private void cancelButtonListener(ActionEvent event) {
-        System.out.println("Modify Part Cancel button pressed");
-        loadMainScreen(cancelButton);
+        // Creating Alert window and dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Go back to Main Screen?");
+        alert.setHeaderText("You are about to go back to the Main Screen");
+        alert.setContentText("Any unsaved data will be permenently deleted."
+                + " Are you sure you're ready to go back to the Main Screen?");
+        // Creating Yes/No buttons
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        // Setting the buttons on the Alert
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        // Getting what the user selected
+        Optional<ButtonType> result = alert.showAndWait();
+        // They want to go back to the main screen
+        if(result.get() == yesButton) {
+            changeScreen("MainScreen", cancelButton);
+        }
+        // No button was pressed
+        else {
+            // Just close the alert
+            alert.close();
+        }
     }
     
     public void setSelectedPart(Part part) {
@@ -167,7 +183,6 @@ public class ModifyPartController implements Initializable {
         // Populating the form
         setFieldText(partName, partInventory, partID, altFieldText, 
                 partMax, partMin, partPrice);
-        //return this.modifyPartIndex;
     }
     
     // Sets the text in the form fields
@@ -183,38 +198,20 @@ public class ModifyPartController implements Initializable {
         
     }
     
-    // Takes button pressed and directs the Stage back to MainScreen.fxml
-    private void loadMainScreen(Button buttonPressed) {
+    // Takes button pressed and directs the Stage to the specified screen
+    private void changeScreen (String screenName, Button buttonPressed) {
+        String screenFile = screenName + ".fxml";
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(
-                    InventorySystem.BASE_FOLDER_PATH + "MainScreen.fxml"));
+            Parent root = FXMLLoader.load(getClass().
+                    getResource(
+                            InventorySystem.BASE_FOLDER_PATH + screenFile));
             Stage stage = (Stage) buttonPressed.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
-            System.out.println(
-                    "Exception loading MainScreen from Modify Part Screen.");
+            System.out.println("Exception loading Add Part Screen.");
             ex.printStackTrace();
         }
     }
-    
-//   public void setCurrentAltFieldText() {
-//       String current = altField.getText();
-//       System.out.println(current);
-//       String promptText = altField.getPromptText();
-//       System.out.println(promptText);
-//       System.out.println(!(current.equals(promptText)));
-//        if(!(current.equals(promptText))){
-//            System.out.println("In if");
-//            this.currentAltFieldText = current;
-//            System.out.println("Current Alt Field: " + currentAltFieldText);
-//            this.altField.setText(currentAltFieldText);
-//        }
-//        else{
-//            System.out.println("In else");
-//            this.altField.clear();
-//        }
-        
-//   }
 }

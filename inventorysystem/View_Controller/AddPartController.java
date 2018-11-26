@@ -15,12 +15,13 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import inventorysystem.Model.Inventory;
 import inventorysystem.Model.Outsourced;
-import inventorysystem.Model.Part;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -128,28 +129,48 @@ public class AddPartController implements Initializable {
             newPart.setCompanyName(altFieldText);
             Inventory.addPart(newPart);
         }
-        
-        System.out.println("Part total: " + Inventory.getPartsArray().size());
-        
-        for(Part part: Inventory.getPartsArray()) {
-            System.out.println("Part ID: " + part.getPartID());
-            System.out.println("Part Name: " + part.getName());
-        }
-        System.out.println("Global Part ID: " + Inventory.getPartIDCount());
+        changeScreen("MainScreen", saveButton);
     }
 
     @FXML
     private void cancelButtonListener(ActionEvent event) {
-        System.out.println("Add Part Cancel button pressed");
+        // Creating Alert window and dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Go back to Main Screen?");
+        alert.setHeaderText("You are about to go back to the Main Screen");
+        alert.setContentText("Any unsaved data will be permenently deleted."
+                + " Are you sure you're ready to go back to the Main Screen?");
+        // Creating Yes/No buttons
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        // Setting the buttons on the Alert
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        // Getting what the user selected
+        Optional<ButtonType> result = alert.showAndWait();
+        // They want to go back to the main screen
+        if(result.get() == yesButton) {
+            changeScreen("MainScreen", cancelButton);
+        }
+        // No button was pressed
+        else {
+            // Just close the alert
+            alert.close();
+        }
+    }
+    
+    // Takes button pressed and directs the Stage to the specified screen
+    private void changeScreen (String screenName, Button buttonPressed) {
+        String screenFile = screenName + ".fxml";
         try {
             Parent root = FXMLLoader.load(getClass().
-                    getResource(InventorySystem.BASE_FOLDER_PATH + "MainScreen.fxml"));
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
+                    getResource(
+                            InventorySystem.BASE_FOLDER_PATH + screenFile));
+            Stage stage = (Stage) buttonPressed.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
-            System.out.println("Exception loading MainScreen from Part Add Screen.");
+            System.out.println("Exception loading Add Part Screen.");
             ex.printStackTrace();
         }
     }
